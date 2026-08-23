@@ -236,6 +236,8 @@ def triage_feed(
 def claimed_identifiers(text: str) -> list[str]:
     claims = []
     for token in re.findall(r"[A-Za-z0-9][A-Za-z0-9._/-]{2,}", text):
+        if re.fullmatch(r"\d+-[A-Za-z]+", token):
+            continue
         has_digit = any(char.isdigit() for char in token)
         camel_case = any(char.islower() for char in token) and any(char.isupper() for char in token[1:])
         uppercase = token.isupper() and any(char.isalpha() for char in token)

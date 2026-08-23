@@ -409,6 +409,29 @@ def propose_fix(diagnosis: Diagnosis) -> ProposedFix:
             risks=["A blanket refusal scores perfect groundedness and is strictly worse for answerable questions."],
             test_plan="Run the missing-policy case and the curated answerable-question evaluation set.",
         )
+    if diagnosis.feature == "checkout/promo" and target:
+        return ProposedFix(
+            files=[
+                "packages/pricing/src/promo.ts",
+                "packages/pricing/src/index.ts",
+                "packages/checkout/src/checkout.ts",
+                "packages/checkout/src/server.ts",
+            ],
+            strategy=(
+                "Preserve unknown versus expired as an explicit pricing resolution state, "
+                "convert that state into a typed promo error before dereference, and map the "
+                "expired reason to a distinct HTTP 4xx response. Do not change the crash-site "
+                "expression at packages/checkout/src/checkout.ts:24."
+            ),
+            risks=[
+                "Changing the pricing return contract can break every caller in the package.",
+                "Resolve the promotion once per application; Date.now() makes repeated resolution disagree at expiry boundaries.",
+            ],
+            test_plan=(
+                "Verify SAVE20 returns expired_promo_code with an EXPIRED message, NOPE99 "
+                "remains unknown_promo_code, and the crash-site expression is unchanged."
+            ),
+        )
     if diagnosis.mode == "degradation":
         return ProposedFix(
             files=files,
