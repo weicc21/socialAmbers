@@ -6,11 +6,9 @@ The Streamlit dashboard provides two views: **Signal Feed** collects normalized 
 
 ## Demo
 
-<video src="artifacts/socialambers-demo.mp4" controls width="100%">
-  Your Markdown viewer does not support embedded video. Use the link below to open the demo.
-</video>
+[![socialAmbers end-to-end demo](artifacts/socialambers-demo.gif)](artifacts/socialambers-demo.mp4)
 
-▶️ **[Open or download the socialAmbers demo video](artifacts/socialambers-demo.mp4)**
+▶️ **Select the preview to open the full-quality MP4, or [download the demo video](artifacts/socialambers-demo.mp4).**
 
 ## Reference application and fixture disclaimer
 
