@@ -133,11 +133,13 @@ class Ingestor:
         self.manual = manual
         self.store = SignalStore(threshold=threshold, telemetry=TelemetryClient())
         self.dispatched: set[str] = set()
+        self.last_reported_queued: int | None = None
         if manual:
             control = _control()
             control.update({"mode": "manual", "run_requested": False})
             control.setdefault("queued", 0)
             _atomic_json(CONTROL, control)
+        self.write_state()
 
     def _peek_queued(self) -> int:
         with BUS.open() as handle:
@@ -149,7 +151,9 @@ class Ingestor:
         control = _control()
         control.update({"mode": "manual", "run_requested": False, "queued": queued})
         _atomic_json(CONTROL, control)
-        log("ingest.queued", f"{queued} complaints waiting for a manual run", queued=queued)
+        if queued != self.last_reported_queued:
+            log("ingest.queued", f"{queued} complaints waiting for a manual run", queued=queued)
+            self.last_reported_queued = queued
 
     def _read_new(self) -> list[dict]:
         complaints = []
@@ -239,6 +243,7 @@ class Ingestor:
         if manual:
             control.update({"run_requested": False, "queued": 0})
             _atomic_json(CONTROL, control)
+            self.last_reported_queued = 0
         batch = self._read_new()
         if not batch:
             return

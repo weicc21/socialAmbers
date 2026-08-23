@@ -9,6 +9,7 @@ there is no live fallback.
 from __future__ import annotations
 
 import argparse
+import fcntl
 import hashlib
 import json
 import os
@@ -27,6 +28,7 @@ FIXTURES = ROOT / "engine" / "fixtures" / "agent_fixes"
 PROTECTED_BRANCHES = {"main", "master"}
 _SIGNAL_ID = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]{0,79}")
 _active_signal: str | None = None
+ACTOR_LOCK = RUNTIME / "actor.lock"
 
 
 def repo_root() -> Path:
@@ -218,8 +220,14 @@ def replay_fixture(signal_id: str, instruction: str) -> int:
     global _active_signal
     _active_signal = signal_id
     status_path = RUNTIME / f"fix-status-{signal_id}.json"
+    lock_handle = None
     try:
         fixture = _load_fixture(signal_id, instruction)
+        RUNTIME.mkdir(parents=True, exist_ok=True)
+        lock_handle = ACTOR_LOCK.open("a+")
+        log("actor.queued", "waiting for exclusive access to the ACME Shop fix worktree")
+        fcntl.flock(lock_handle.fileno(), fcntl.LOCK_EX)
+        log("actor.branch", "exclusive worktree lock acquired; preparing a clean base branch")
         base_branch = _prepare_base(str(fixture["base_head"]))
         patch = str(fixture["patch"])
         checked = _git("apply", "--check", input_text=patch)
@@ -264,6 +272,9 @@ def replay_fixture(signal_id: str, instruction: str) -> int:
         log("actor.failure", detail)
         return 1
     finally:
+        if lock_handle is not None:
+            fcntl.flock(lock_handle.fileno(), fcntl.LOCK_UN)
+            lock_handle.close()
         _active_signal = None
 
 
