@@ -4,6 +4,14 @@ SocialAmbers detects clusters of customer complaints as early signals of product
 
 The Streamlit dashboard provides two views: **Signal Feed** collects normalized customer evidence, while **Diagnose** shows clustering, the evidence pipeline, Greptile provenance, root-cause findings, and the fix workflow.
 
+## Demo
+
+<video src="artifacts/socialambers-demo.mp4" controls width="100%">
+  Your Markdown viewer does not support embedded video. Use the link below to open the demo.
+</video>
+
+▶️ **[Open or download the socialAmbers demo video](artifacts/socialambers-demo.mp4)**
+
 ## Reference application and fixture disclaimer
 
 Diagnoses and local fix replays run against [weicc21/acme-shop](https://github.com/weicc21/acme-shop), a deliberately instrumented reference application.
@@ -55,7 +63,7 @@ In the dashboard:
 2. Open **Diagnose** to see the independent-voice clusters.
 3. Select **Diagnose now** to process queued reports and stream evidence events at 0.3-second intervals.
 4. Inspect telemetry, deployment, callgraph, and Greptile evidence in the completed diagnosis.
-5. Select a completed issue and choose **Fix issue** to replay its captured, locally verified patch on an isolated `fix/socialambers/*` branch.
+5. Select a completed issue and choose **Fix issue** to replay its captured, locally verified patch on an isolated `fix/socialclues/*` branch.
 
 Fix replay changes only the local ACME Shop checkout. It does not push commits or open a pull request. Multiple fixes are serialized and each begins from the clean pinned base so patches cannot leak between fix branches.
 

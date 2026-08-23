@@ -17,7 +17,7 @@ except ModuleNotFoundError as exc:
     from terminal import render, script_rows
 
 
-st.set_page_config(page_title="SocialClues", page_icon="📡", layout="wide")
+st.set_page_config(page_title="socialAmbers", page_icon="📡", layout="wide")
 st.markdown("""
 <style>
 [data-testid="stAppViewContainer"]{background:
@@ -263,7 +263,7 @@ def live_diagnose_body() -> None:
         diagnosis_card(diagnosis)
 
 
-st.title("📡 SocialClues")
+st.title("📡 socialAmbers")
 st.markdown('<div class="hero-sub">Customer signals in. Production evidence correlated. Verified fixes out.</div>', unsafe_allow_html=True)
 st.session_state.setdefault("view", "Signal Feed")
 st.session_state.setdefault("replay_posts", list(COMPLAINTS))
