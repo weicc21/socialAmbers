@@ -1,6 +1,0 @@
-{
-  "answer": "The outage is in Stripe, not this repository. The durable repository change belongs at the payment call site, which lacks a timeout, retry policy, and circuit breaker.",
-  "sources": [
-    {"filepath": "packages/checkout/src/server.ts", "linestart": 36, "lineend": 36, "summary": "The server exposes unexpected failures but provides no vendor-call resilience."}
-  ]
-}

@@ -1,8 +1,0 @@
-{
-  "answer": "The promo handler persists the discounted subtotal before finalTotal applies the shipping threshold. Repeated promo application compounds discounts and can move an originally qualifying cart below the threshold, silently adding shipping.",
-  "sources": [
-    {"filepath": "packages/checkout/src/server.ts", "linestart": 24, "lineend": 29, "summary": "The handler persists each discounted subtotal and returns a recomputed final total."},
-    {"filepath": "packages/checkout/src/checkout.ts", "linestart": 38, "lineend": 39, "summary": "Shipping is calculated from the mutable discounted subtotal."},
-    {"filepath": "packages/checkout/src/checkout.ts", "linestart": 24, "lineend": 24, "summary": "Each application discounts the cart subtotal again."}
-  ]
-}

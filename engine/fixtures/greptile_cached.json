@@ -1,8 +1,0 @@
-{
-  "answer": "resolvePromo returns null for expired catalog entries, but isKnownCode reports those entries as valid. applyPromo guards with isKnownCode and then dereferences the nullable result, so the pricing predicate is the root cause and checkout.ts is the crash site.",
-  "sources": [
-    {"filepath": "packages/pricing/src/promo.ts", "linestart": 12, "lineend": 12, "summary": "Expired promotions resolve to null."},
-    {"filepath": "packages/checkout/src/checkout.ts", "linestart": 24, "lineend": 24, "summary": "applyPromo dereferences promo.discount at the crash site."},
-    {"filepath": "packages/pricing/src/catalog.ts", "linestart": 13, "lineend": 16, "summary": "SAVE20 remains catalogued but is expired and non-stackable."}
-  ]
-}
