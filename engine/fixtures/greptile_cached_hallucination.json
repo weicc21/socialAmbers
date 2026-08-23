@@ -1,0 +1,8 @@
+{
+  "answer": "The prompt tells the assistant to sound confident and avoid hedging, while retrieval lacks the final-sale exception. When retrieval is empty, assistant.ts calls ungrounded(question), producing a confident policy contradiction.",
+  "sources": [
+    {"filepath": "packages/support/prompts/support_agent.md", "linestart": 6, "lineend": 7, "summary": "The prompt requires confident, direct answers rather than hedging."},
+    {"filepath": "packages/support/src/knowledge.ts", "linestart": 13, "lineend": 29, "summary": "KNOWLEDGE contains only the standard 30-day return rule and omits the final-sale exception."},
+    {"filepath": "packages/support/src/assistant.ts", "linestart": 76, "lineend": 81, "summary": "Empty retrieval falls through to ungrounded(question) instead of refusing."}
+  ]
+}
