@@ -1,0 +1,62 @@
+{
+  "_comment": "Relative-time replay transcribed from the acme-shop demo scenarios.",
+  "service": "acme-shop",
+  "deploys": [
+    {"sha": "94b112c", "minutes_ago": 46, "author": "Maya Chen", "message": "checkout: simplify promo application", "files": ["packages/checkout/src/checkout.ts"], "pr": 1},
+    {"sha": "349e2b3", "minutes_ago": 300, "author": "Jordan Lee", "message": "support: tighten assistant tone, drop hedging language", "files": ["packages/support/prompts/support_agent.md"], "pr": 3},
+    {"sha": "6d08137", "minutes_ago": 372, "author": "Sam Rivera", "message": "checkout: apply free-shipping threshold to the payable amount", "files": ["packages/checkout/src/server.ts", "packages/checkout/src/checkout.ts"], "pr": 2},
+    {"sha": "0b7d441", "minutes_ago": 380, "author": "Alex Kim", "message": "checkout: add flat-rate shipping under $50", "files": ["packages/checkout/src/checkout.ts"], "pr": 809}
+  ],
+  "error_rate": [
+    {"minutes_ago": 90, "value": 0.0030},
+    {"minutes_ago": 75, "value": 0.0032},
+    {"minutes_ago": 60, "value": 0.0029},
+    {"minutes_ago": 50, "value": 0.0031},
+    {"minutes_ago": 45, "value": 0.0310},
+    {"minutes_ago": 30, "value": 0.0320},
+    {"minutes_ago": 15, "value": 0.0300},
+    {"minutes_ago": 0, "value": 0.0310}
+  ],
+  "logs": [
+    {
+      "minutes_ago": 7, "level": "error", "route": "/checkout/apply-promo", "error_type": "TypeError",
+      "message": "Cannot read properties of null (reading 'discount')", "trace_id": "tr_promo_7f31", "count": 47,
+      "frames": [
+        {"file": "packages/checkout/src/checkout.ts", "line": 24, "function": "applyPromo", "in_app": true},
+        {"file": "packages/checkout/src/server.ts", "line": 25, "function": "handleApplyPromo", "in_app": true},
+        {"file": "node:internal/http", "line": 512, "function": "emit", "in_app": false}
+      ],
+      "attributes": {"http.response.status_code": "500", "promo.code": "SAVE20", "order.id": "A1B2C3D4", "service.name": "checkout"}
+    },
+    {
+      "minutes_ago": 12, "level": "warn", "route": "/checkout/apply-promo", "error_type": "PromoError",
+      "message": "Unknown promo code: NOPE99", "trace_id": "tr_promo_9a12", "count": 3,
+      "frames": [{"file": "packages/checkout/src/checkout.ts", "line": 19, "function": "applyPromo", "in_app": true}],
+      "attributes": {"http.response.status_code": "400", "promo.code": "NOPE99", "service.name": "checkout"}
+    },
+    {
+      "minutes_ago": 38, "level": "error", "route": "/cart", "error_type": "TimeoutError",
+      "message": "Cart lookup exceeded request deadline", "trace_id": "tr_cart_221b", "count": 2,
+      "frames": [{"file": "packages/checkout/src/server.ts", "line": 117, "function": "handleGetCart", "in_app": true}],
+      "attributes": {"http.response.status_code": "504", "service.name": "checkout"}
+    },
+    {
+      "minutes_ago": 5, "level": "error", "route": "/checkout/pay", "error_type": "UpstreamError",
+      "message": "Stripe payment API unavailable", "trace_id": "tr_stripe_88ca", "count": 214,
+      "frames": [
+        {"file": "node_modules/stripe/cjs/RequestSender.js", "line": 287, "function": "_request", "in_app": false},
+        {"file": "node:internal/process/task_queues", "line": 95, "function": "processTicksAndRejections", "in_app": false}
+      ],
+      "attributes": {"http.response.status_code": "502", "service.name": "checkout"},
+      "vendor": "stripe", "vendor_host": "api.stripe.com"
+    }
+  ],
+  "metrics": {
+    "free_shipping_rate": {"unit": "ratio", "description": "Share of carts receiving free shipping", "direction": "down_is_bad", "features": ["checkout/totals"], "points": [{"minutes_ago":720,"value":0.72},{"minutes_ago":600,"value":0.71},{"minutes_ago":480,"value":0.72},{"minutes_ago":390,"value":0.71},{"minutes_ago":360,"value":0.49},{"minutes_ago":240,"value":0.47},{"minutes_ago":120,"value":0.48},{"minutes_ago":0,"value":0.47}]},
+    "shipping_fee_revenue": {"unit": "USD/min", "description": "Shipping fee revenue per minute", "direction": "up_is_suspicious", "features": ["checkout/totals"], "points": [{"minutes_ago":720,"value":82},{"minutes_ago":600,"value":80},{"minutes_ago":480,"value":83},{"minutes_ago":390,"value":81},{"minutes_ago":360,"value":119},{"minutes_ago":240,"value":122},{"minutes_ago":120,"value":120},{"minutes_ago":0,"value":123}]},
+    "promo_orders_with_shipping_fee": {"unit": "ratio", "description": "Promo orders that also pay shipping", "direction": "up_is_suspicious", "features": ["checkout/totals", "checkout/promo"], "points": [{"minutes_ago":720,"value":0.08},{"minutes_ago":600,"value":0.09},{"minutes_ago":480,"value":0.08},{"minutes_ago":390,"value":0.09},{"minutes_ago":360,"value":0.25},{"minutes_ago":240,"value":0.27},{"minutes_ago":120,"value":0.26},{"minutes_ago":0,"value":0.28}]},
+    "promo_redemptions_per_order": {"unit": "count/order", "description": "Promo applications per completed order", "direction": "up_is_suspicious", "features": ["checkout/promo"], "points": [{"minutes_ago":720,"value":0.31},{"minutes_ago":480,"value":0.30},{"minutes_ago":240,"value":0.32},{"minutes_ago":60,"value":0.31},{"minutes_ago":45,"value":0.61},{"minutes_ago":30,"value":0.66},{"minutes_ago":15,"value":0.68},{"minutes_ago":0,"value":0.69}]},
+    "avg_discount_pct": {"unit": "percent", "description": "Average discount on promo orders", "direction": "up_is_suspicious", "features": ["checkout/promo"], "points": [{"minutes_ago":720,"value":11.2},{"minutes_ago":480,"value":11.0},{"minutes_ago":240,"value":11.3},{"minutes_ago":60,"value":11.1},{"minutes_ago":45,"value":20.8},{"minutes_ago":30,"value":22.1},{"minutes_ago":15,"value":22.4},{"minutes_ago":0,"value":22.7}]},
+    "assistant_eval_groundedness": {"unit": "ratio", "description": "Offline grounded-answer evaluation score", "direction": "down_is_bad", "features": ["ai/assistant"], "points": [{"minutes_ago":720,"value":0.94},{"minutes_ago":600,"value":0.94},{"minutes_ago":480,"value":0.94},{"minutes_ago":360,"value":0.94},{"minutes_ago":240,"value":0.94},{"minutes_ago":120,"value":0.94},{"minutes_ago":60,"value":0.94},{"minutes_ago":0,"value":0.94}]}
+  }
+}
