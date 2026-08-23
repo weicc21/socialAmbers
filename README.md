@@ -1,6 +1,6 @@
-# SocialClues
+# SocialAmbers
 
-SocialClues detects clusters of customer complaints as early signals of production issues. Once enough independent voices identify a pattern, it corroborates the claim against telemetry, deployment history, structural call graphs, and Greptile review findings. The resulting diagnosis distinguishes the visible crash site from the likely root cause and can hand a verified fix instruction to a deterministic fixture-based coding agent.
+SocialAmbers detects clusters of customer complaints as early signals of production issues. Once enough independent voices identify a pattern, it corroborates the claim against telemetry, deployment history, structural call graphs, and Greptile review findings. The resulting diagnosis distinguishes the visible crash site from the likely root cause and can hand a verified fix instruction to a deterministic fixture-based coding agent.
 
 The Streamlit dashboard provides two views: **Signal Feed** collects normalized customer evidence, while **Diagnose** shows clustering, the evidence pipeline, Greptile provenance, root-cause findings, and the fix workflow.
 
@@ -8,7 +8,7 @@ The Streamlit dashboard provides two views: **Signal Feed** collects normalized 
 
 Diagnoses and local fix replays run against [weicc21/acme-shop](https://github.com/weicc21/acme-shop), a deliberately instrumented reference application.
 
-> **Fixture disclaimer:** ACME Shop was prepared as a demo fixture before the hackathon. It does not contribute to the implementation of SocialClues and is not part of this project's solution code. It exists only as a stable target repository containing known scenarios, telemetry fixtures, deployment metadata, and code locations against which SocialClues can demonstrate diagnosis and verified fix replay.
+> **Fixture disclaimer:** ACME Shop was prepared as a demo fixture before the hackathon. It does not contribute to the implementation of SocialAmbers and is not part of this project's solution code. It exists only as a stable target repository containing known scenarios, telemetry fixtures, deployment metadata, and code locations against which SocialAmbers can demonstrate diagnosis and verified fix replay.
 
 ## Prerequisites
 
@@ -21,15 +21,15 @@ Clone both repositories and install the Python dependencies:
 
 ```bash
 git clone https://github.com/weicc21/acme-shop.git
-git clone <socialclues-repository-url> socialClues
-cd socialClues
+git clone <socialambers-repository-url> socialAmbers
+cd socialAmbers
 
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-Create `.env` in the SocialClues root. Values should be unquoted:
+Create `.env` in the SocialAmbers root. Values should be unquoted:
 
 ```dotenv
 ACME_SHOP_PATH=/absolute/path/to/acme-shop
@@ -55,7 +55,7 @@ In the dashboard:
 2. Open **Diagnose** to see the independent-voice clusters.
 3. Select **Diagnose now** to process queued reports and stream evidence events at 0.3-second intervals.
 4. Inspect telemetry, deployment, callgraph, and Greptile evidence in the completed diagnosis.
-5. Select a completed issue and choose **Fix issue** to replay its captured, locally verified patch on an isolated `fix/socialclues/*` branch.
+5. Select a completed issue and choose **Fix issue** to replay its captured, locally verified patch on an isolated `fix/socialambers/*` branch.
 
 Fix replay changes only the local ACME Shop checkout. It does not push commits or open a pull request. Multiple fixes are serialized and each begins from the clean pinned base so patches cannot leak between fix branches.
 
