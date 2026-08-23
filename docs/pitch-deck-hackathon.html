@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="socialAmbers five-slide hackathon pitch deck.">
+  <title>socialAmbers — Hackathon Pitch</title>
+  <style>
+    :root {
+      --bg:#07111f; --panel:#0d1c31; --ink:#edf5ff; --muted:#9db0ca;
+      --blue:#58a8ff; --mint:#58e7d3; --amber:#ffc66f; --line:#233a57;
+    }
+    * { box-sizing:border-box; }
+    html,body { width:100%; height:100%; margin:0; overflow:hidden; }
+    body {
+      color:var(--ink); background:var(--bg);
+      font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    }
+    body::before {
+      content:""; position:fixed; inset:0; pointer-events:none;
+      background:
+        radial-gradient(circle at 12% 14%,rgba(88,168,255,.17),transparent 30%),
+        radial-gradient(circle at 88% 82%,rgba(88,231,211,.11),transparent 28%),
+        linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+      background-size:auto,auto,44px 44px,44px 44px;
+    }
+    .slide {
+      position:absolute; inset:0; display:grid; align-content:center; gap:1.65rem;
+      padding:clamp(4rem,7vw,7rem) clamp(1.5rem,8vw,9rem);
+      opacity:0; visibility:hidden; transform:translateY(16px);
+      transition:.3s ease;
+    }
+    .slide.active { opacity:1; visibility:visible; transform:none; }
+    .slide>* { width:100%; max-width:1160px; margin-inline:auto; }
+    .brand { display:flex; align-items:center; gap:.7rem; font-weight:800; }
+    .mark { display:grid; place-items:center; width:2.1rem; height:2.1rem; border-radius:.7rem; color:#06121d; background:linear-gradient(135deg,var(--blue),var(--mint)); }
+    .eyebrow { color:var(--mint); font-size:.8rem; font-weight:800; letter-spacing:.16em; text-transform:uppercase; }
+    h1,h2,h3,p { margin:0; }
+    h1 { max-width:1030px; font-size:clamp(3.4rem,8.7vw,8.2rem); line-height:.9; letter-spacing:-.065em; }
+    h2 { max-width:1030px; font-size:clamp(2.25rem,5vw,5rem); line-height:.98; letter-spacing:-.045em; }
+    h3 { font-size:clamp(1rem,1.55vw,1.35rem); }
+    p { font-size:clamp(.92rem,1.45vw,1.24rem); line-height:1.5; }
+    .lede { max-width:880px; color:var(--muted); font-size:clamp(1.1rem,2vw,1.65rem); }
+    .mint { color:var(--mint); } .blue { color:var(--blue); } .amber { color:var(--amber); }
+    .badge { width:fit-content; padding:.48rem .78rem; border:1px solid rgba(88,231,211,.3); border-radius:999px; color:var(--mint); background:rgba(88,231,211,.06); font-size:.8rem; font-weight:750; }
+    .punchline { width:fit-content; padding:.58rem .9rem; border:1px solid rgba(255,198,111,.55); border-radius:.65rem; color:#171006; background:var(--amber); box-shadow:0 8px 28px rgba(255,198,111,.14); font-size:clamp(.9rem,1.25vw,1.08rem); font-weight:850; letter-spacing:-.01em; }
+    .grid2,.grid3 { display:grid; gap:1rem; }
+    .grid2 { grid-template-columns:repeat(2,1fr); }
+    .grid3 { grid-template-columns:repeat(3,1fr); }
+    .stack { display:grid; gap:1rem; }
+    .card { padding:1.35rem; border:1px solid var(--line); border-radius:1rem; background:linear-gradient(145deg,rgba(18,38,64,.94),rgba(9,21,37,.9)); box-shadow:0 24px 65px rgba(0,0,0,.3); }
+    .card p { margin-top:.65rem; color:var(--muted); font-size:clamp(.82rem,1.15vw,1rem); }
+    .num { display:block; margin-bottom:.8rem; color:var(--blue); font:800 1.5rem/1 ui-monospace,SFMono-Regular,Menlo,monospace; }
+    .flow { display:grid; grid-template-columns:repeat(4,1fr); gap:.7rem; }
+    .step { position:relative; padding:1.1rem; border:1px solid var(--line); border-radius:.9rem; background:rgba(13,28,49,.86); }
+    .step:not(:last-child)::after { content:"→"; position:absolute; z-index:2; right:-.72rem; top:50%; transform:translate(50%,-50%); color:var(--mint); font-weight:900; }
+    .step b { display:block; margin-bottom:.5rem; color:var(--mint); font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; }
+    .step p { color:var(--muted); font-size:clamp(.76rem,1vw,.94rem); }
+    .terminal { padding:1.2rem 1.35rem; border:1px solid rgba(88,231,211,.25); border-radius:1rem; background:#040b13; font:clamp(.72rem,1.05vw,.94rem)/1.72 ui-monospace,SFMono-Regular,Menlo,monospace; color:#bdcee4; }
+    .terminal .tag { color:var(--blue); } .terminal .ok { color:var(--mint); } .terminal .warn { color:var(--amber); }
+    .quote { max-width:980px; padding-left:1.35rem; border-left:4px solid var(--mint); font-size:clamp(1.45rem,3vw,2.7rem); font-weight:750; line-height:1.25; letter-spacing:-.025em; }
+    .progress { position:fixed; z-index:10; top:0; left:0; height:3px; background:linear-gradient(90deg,var(--blue),var(--mint)); transition:width .25s; }
+    .footer { position:fixed; z-index:10; left:2rem; right:2rem; bottom:1.25rem; display:flex; justify-content:space-between; align-items:center; color:#72849e; font-size:.76rem; }
+    .controls { display:flex; align-items:center; gap:.5rem; }
+    button { width:2rem; height:2rem; border:1px solid var(--line); border-radius:.6rem; color:var(--ink); background:rgba(13,28,49,.86); cursor:pointer; }
+    button:hover,button:focus-visible { border-color:var(--mint); outline:none; }
+    @media(max-width:760px) {
+      .slide { overflow-y:auto; align-content:start; padding-top:5rem; padding-bottom:5rem; }
+      .grid2,.grid3,.flow { grid-template-columns:1fr; }
+      .step:not(:last-child)::after { content:"↓"; right:50%; top:auto; bottom:-.7rem; transform:translate(50%,50%); }
+      .hint { display:none; }
+    }
+    @media print {
+      html,body { height:auto; overflow:visible; print-color-adjust:exact; -webkit-print-color-adjust:exact; }
+      body::before,.progress,.footer { display:none; }
+      .slide { position:relative; width:100vw; height:100vh; opacity:1; visibility:visible; transform:none; page-break-after:always; }
+    }
+    @media(prefers-reduced-motion:reduce) { .slide,.progress { transition:none; } }
+  </style>
+</head>
+<body>
+  <main aria-live="polite">
+    <section class="slide active" aria-label="Slide 1 of 5">
+      <div class="brand"><span class="mark">S</span> socialAmbers</div>
+      <h1>Customers detect failures your monitors <span class="mint">never alert on.</span></h1>
+      <p class="lede">AI incident agents can investigate alerts and open fix PRs. But silent correctness, abuse, friction, and AI-quality failures often begin as scattered customer reports—not machine incidents.</p>
+      <span class="badge">Preventive operations for customer-detected software failures</span>
+    </section>
+
+    <section class="slide" aria-label="Slide 2 of 5">
+      <div class="eyebrow">The missing pre-incident layer</div>
+      <h2>AI agents respond to incidents. <span class="amber">Customers discover the ones monitors miss.</span></h2>
+      <p class="punchline">Think of socialAmbers as preventive care for software operations.</p>
+      <div class="grid3">
+        <article class="card"><span class="num">01</span><h3>CX platforms filter</h3><p>Support, CX, review, and community systems classify and route conversations but do not establish an engineering incident.</p></article>
+        <article class="card"><span class="num">02</span><h3>AI SRE platforms respond</h3><p>Augment and Struct investigate a supplied alert or routed issue, then produce an RCA or remediation.</p></article>
+        <article class="card"><span class="num">03</span><h3>socialAmbers qualifies</h3><p>It corroborates weak reports, rejects noise, and creates the evidence-backed incident downstream agents need.</p></article>
+      </div>
+      <span class="badge">Reports are inputs. A corroborated CustomerIncident is the product.</span>
+    </section>
+
+    <section class="slide" aria-label="Slide 3 of 5">
+      <div class="eyebrow">Live demo · implementation</div>
+      <h2>No alert fired. Customers still revealed <span class="amber">two real defects.</span></h2>
+      <div class="stack">
+        <div class="flow">
+          <div class="step"><b>Pluggable ingestion</b><h3>Qualify the incident</h3><p>Cluster independent reports, extract artifacts, classify failure posture, and reject noise.</p></div>
+          <div class="step"><b>Python correlation engine</b><h3>Fuse evidence</h3><p>Join trace frames, telemetry, deploy timing, service identity, and complaint context with deterministic rules.</p></div>
+          <div class="step"><b>Code intelligence</b><h3>Resolve causality</h3><p>Combine a local structural call graph with live Greptile MCP review evidence to separate crash site from root cause.</p></div>
+          <div class="step"><b>Resolve + learn</b><h3>Close the loop</h3><p>Hand off to any approved agent, capture accepted, partial, or rejected outcomes, and export customer-owned training records.</p></div>
+        </div>
+        <div class="terminal" aria-label="Example diagnosis log">
+          <div><span class="tag">[REPORTS]</span> independent authors corroborated</div>
+          <div><span class="warn">[POSTURE]</span> availability + abuse detected</div>
+          <div><span class="tag">[TRACE]</span> crash at checkout.ts:24</div>
+          <div><span class="ok">[GREPTILE LIVE]</span> review evidence returned</div>
+          <div><span class="tag">[CALLGRAPH]</span> nullable upstream path</div>
+          <div><span class="warn">[CAUSAL ROLE]</span> crash site ≠ patch target</div>
+          <div><span class="ok">[SCHEMA VALID]</span> diagnosis + fix instruction emitted</div>
+        </div>
+      </div>
+      <span class="badge">Deterministic first • progressively retrieve context only when evidence is insufficient</span>
+    </section>
+
+    <section class="slide" aria-label="Slide 4 of 5">
+      <div class="eyebrow">The product</div>
+      <p class="quote">Observability handles the emergency. socialAmbers recognizes the early customer symptoms.</p>
+      <div class="grid3">
+        <article class="card"><h3>Detect what alerts miss</h3><p>Recognize silent correctness, friction, abuse, and AI-content failures even when machine telemetry looks healthy.</p></article>
+        <article class="card"><h3>Qualify before escalation</h3><p>Preserve sources, corroboration, failure postures, contradictions, causal roles, confidence, and abstention.</p></article>
+        <article class="card"><h3>Portable handoff</h3><p>Send the same incident and remediation contract to the enterprise’s approved workflow, model, or coding executor.</p></article>
+      </div>
+      <span class="badge">Earlier containment • fewer support escalations • smaller post-incident cost</span>
+    </section>
+
+    <section class="slide" aria-label="Slide 5 of 5">
+      <div class="eyebrow">Business vision</div>
+      <h2>Qualification wins the entry. <span class="mint">Verified outcomes compound the advantage.</span></h2>
+      <p class="lede">socialAmbers completes the enterprise’s existing loop: intervene while failures still look like customer noise, reduce the operational aftermath, and learn from what actually worked.</p>
+      <div class="grid3">
+        <article class="card"><span class="num">01</span><h3>Keep the existing stack</h3><p>Plug into CX sources, observability, incident workflows, coding agents, and training infrastructure without adding another agent platform.</p></article>
+        <article class="card"><span class="num">02</span><h3>Record verified outcomes</h3><p>Preserve accepted, partial, rejected, customer-verified, durable, and unresolved results—not merely “PR opened.”</p></article>
+        <article class="card"><span class="num">03</span><h3>Improve the operating model</h3><p>Export private evidence for qualification, calibration, retrieval, ranking, evaluation, or customer-run post-training.</p></article>
+      </div>
+      <span class="badge">Customer evidence is the wedge • customer-owned outcome history is the moat</span>
+    </section>
+  </main>
+
+  <div class="progress" aria-hidden="true"></div>
+  <footer class="footer">
+    <span class="hint">← → · Space · Swipe</span>
+    <div class="controls">
+      <button id="prev" type="button" aria-label="Previous slide">←</button>
+      <span><span id="current">1</span> / <span id="total">5</span></span>
+      <button id="next" type="button" aria-label="Next slide">→</button>
+    </div>
+  </footer>
+
+  <script>
+    (() => {
+      const slides=[...document.querySelectorAll('.slide')], current=document.getElementById('current'), progress=document.querySelector('.progress');
+      let index=Math.min(Math.max(Number(location.hash.slice(1))-1||0,0),slides.length-1),touchX=0;
+      document.getElementById('total').textContent=String(slides.length);
+      function show(next,hash=true){
+        index=Math.min(Math.max(next,0),slides.length-1);
+        slides.forEach((slide,i)=>slide.classList.toggle('active',i===index));
+        current.textContent=String(index+1); progress.style.width=`${(index+1)/slides.length*100}%`;
+        document.title=`socialAmbers — ${index+1}/${slides.length}`;
+        if(hash) history.replaceState(null,'',`#${index+1}`);
+      }
+      document.getElementById('prev').onclick=()=>show(index-1);
+      document.getElementById('next').onclick=()=>show(index+1);
+      addEventListener('keydown',event=>{
+        if(['ArrowRight','PageDown',' '].includes(event.key)){event.preventDefault();show(index+1);}
+        if(['ArrowLeft','PageUp'].includes(event.key)){event.preventDefault();show(index-1);}
+        if(event.key==='Home')show(0); if(event.key==='End')show(slides.length-1);
+      });
+      addEventListener('hashchange',()=>show(Number(location.hash.slice(1))-1||0,false));
+      addEventListener('touchstart',event=>touchX=event.changedTouches[0].screenX,{passive:true});
+      addEventListener('touchend',event=>{const delta=event.changedTouches[0].screenX-touchX;if(Math.abs(delta)>50)show(index+(delta<0?1:-1));},{passive:true});
+      show(index,false);
+    })();
+  </script>
+</body>
+</html>
